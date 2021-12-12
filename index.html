@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Инициализация vue приложения -->
+    <div id="app">
+            <!-- Шапка приложения  -->
+        <div class="header">
+            <div class="container">
+                <div class="logo">ЗАМЕТКИ</div>
+                <div class="form">
+                    <input type="text" v-model="note.title" v-on:keypress.enter="addNote" placeholder="Добавьте заметку..">
+                    <button class="btn" v-on:click="addNote" v-if="">Добавить</button>
+
+                </div>
+            </div>
+        </div>
+        <!-- Блок с добавленными заметками -->
+        <div class="container">
+            <h2>
+                <span>Текущие</span>
+                <span class="mask-num">{{ filteredNotes.length }}</span>
+            </h2>
+            <ul class="mask-list">
+                <!-- Фильтр -->
+                <div class="form">
+                    <input class="in-search" type="text" v-model="searchNotes" placeholder="Поиск.." v-on:keypress.enter>
+                </div>
+                <li v-for="note in filteredNotes" :key="index">
+                    <div>
+                        <input type="checkbox" v-on:change="doCheck(index, 'need')">
+                        <span>{{ note.title }}</span>
+                    </div>
+                    <button class="btn-remove" v-on:click="removeNote(index, 'need')">Удалить</button>
+                </li>
+            </ul>
+            <!-- Блок с выполненными заметками -->
+            <h2>
+                <span>Завершённые</span>
+                <span class="mask-num">{{ completeNotes.length }}</span>
+            </h2>
+            <ul class="mask-list complete-list">
+                <li v-for="(note, index) in completeNotes" :key="index">
+                    <div>
+                        <input type="checkbox" v-on:change="doCheck(index, 'complete')" checked>
+                        <span>{{ note.title }}</span>
+                    </div>
+                    <button class="btn-remove" v-on:click="removeNote(index, 'complete')">Удалить</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Подключение JavaScript -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="app.js"></script>
+</body>
+</html>
